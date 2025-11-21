@@ -1,0 +1,203 @@
+# Mouse Gun Control Setup Guide
+
+## Overview
+This setup allows you to pick up and shoot with TWO guns simultaneously using mouse controls instead of VR controllers.
+
+---
+
+## Scripts Created
+
+1. **MouseGunController.cs** - Handles picking up and shooting guns
+2. **MouseLook.cs** - Camera aiming with mouse
+3. **MouseMovement.cs** - WASD movement (optional)
+
+---
+
+## Setup Instructions
+
+### Step 1: Prepare Your Guns
+
+1. Select all gun objects in the multiplication scene
+2. In Inspector, add tag "Gun" to each gun:
+   - Click "Tag" dropdown → "Add Tag"
+   - Create new tag: "Gun"
+   - Apply tag to all gun objects
+
+### Step 2: Setup Player Camera
+
+1. Find your Main Camera or Player Camera object
+2. Add these components:
+   - Click "Add Component" → Search "Mouse Look"
+   - Set Mouse Sensitivity: 100 (adjust to preference)
+   - Assign Player Body: Drag your player object
+
+### Step 3: Setup Player Object
+
+1. Select your Player object (the one with CharacterController)
+2. Add these components:
+   - **MouseGunController** (Add Component → MouseGunController)
+   - **MouseMovement** (Add Component → MouseMovement) - optional
+
+3. Configure MouseGunController:
+   - **Pickup Range:** 3-5 (how far you can pickup guns)
+   - **Player Camera:** Drag your Main Camera here
+   - **Shooting Speed:** 20-30 (adjust bullet speed)
+   - **Left Gun Offset:** (-0.3, -0.2, 0.5) - left gun position
+   - **Right Gun Offset:** (0.3, -0.2, 0.5) - right gun position
+
+### Step 4: Configure Gun Objects
+
+For each gun in the scene:
+1. Ensure it has a **Rigidbody** component
+2. Ensure it has a **Collider** component
+3. Keep the existing **shoot** script (don't remove it)
+4. Make sure "bullet" and "barrelPivot" are assigned in shoot script
+
+---
+
+## Controls
+
+### Picking Up Guns
+- **Left Mouse Button Click** = Pick up gun in LEFT hand
+- **Right Mouse Button Click** = Pick up gun in RIGHT hand
+- Look at a gun and click to pick it up
+
+### Shooting
+- **Left Mouse Button Click** (when holding left gun) = Shoot left gun
+- **Right Mouse Button Click** (when holding right gun) = Shoot right gun
+
+### Dropping Guns
+- **Q Key** = Drop left gun
+- **E Key** = Drop right gun
+
+### Movement (if MouseMovement.cs is added)
+- **W/A/S/D** = Move
+- **Mouse** = Look around
+- **Shift** = Sprint
+- **Space** = Jump
+
+### Cursor Control
+- **ESC** = Unlock cursor (exit aiming mode)
+- **Left Click** = Lock cursor again (re-enter aiming mode)
+
+---
+
+## Tips for Best Results
+
+### 1. Gun Positioning
+Adjust the gun offsets in MouseGunController to position guns comfortably:
+```
+Left Gun Offset:  X (negative = more left), Y (negative = lower), Z (positive = forward)
+Right Gun Offset: X (positive = more right), Y (negative = lower), Z (positive = forward)
+```
+
+### 2. Pickup Range
+- Increase if guns are hard to pick up
+- Decrease for more precision
+
+### 3. Mouse Sensitivity
+- Lower values (50-75) = Slower, more precise aiming
+- Higher values (150-200) = Faster turning
+
+### 4. Crosshair (Optional)
+Add a crosshair UI:
+1. Create UI → Image
+2. Set to center of screen
+3. Use a small dot or cross image
+
+---
+
+## Troubleshooting
+
+### Can't Pick Up Guns
+- ✓ Check guns have "Gun" tag
+- ✓ Check guns have Collider component
+- ✓ Check Player Camera is assigned in MouseGunController
+- ✓ Increase Pickup Range value
+
+### Guns Don't Shoot
+- ✓ Check shoot script on gun has bullet prefab assigned
+- ✓ Check barrelPivot is assigned in shoot script
+- ✓ Check shooting speed is not too low
+
+### Can't Aim
+- ✓ Check MouseLook script is on Camera
+- ✓ Check cursor is locked (press ESC then click to lock)
+- ✓ Check Player Body is assigned
+
+### Guns Positioned Weird
+- ✓ Adjust Left/Right Gun Offset values
+- ✓ Make Y value negative to lower guns
+- ✓ Make Z value positive to move forward
+
+---
+
+## Advanced: Dual Wielding Strategy
+
+Since you can hold TWO guns:
+1. Pick up left gun with Left Click
+2. Pick up right gun with Right Click
+3. Alternate firing:
+   - Left Click = Fire left gun
+   - Right Click = Fire right gun
+4. Rapid fire by clicking both buttons quickly!
+
+---
+
+## Example Scene Setup
+
+```
+Player (GameObject with CharacterController)
+├── Main Camera
+│   └── MouseLook.cs
+├── MouseGunController.cs
+└── MouseMovement.cs
+
+Gun1 (GameObject)
+├── Tag: "Gun"
+├── Rigidbody
+├── Collider
+└── shoot.cs
+    ├── bullet (assigned)
+    └── barrelPivot (assigned)
+
+Gun2 (GameObject)
+├── Tag: "Gun"
+├── Rigidbody
+├── Collider
+└── shoot.cs
+    ├── bullet (assigned)
+    └── barrelPivot (assigned)
+```
+
+---
+
+## Quick Test
+
+1. Press Play
+2. Look at a gun (center of screen)
+3. Left Click to pick it up
+4. Look at another gun
+5. Right Click to pick it up
+6. Now click Left/Right mouse to shoot!
+7. Press Q or E to drop guns
+
+---
+
+## Performance Note
+
+This system works WITHOUT VR, so you can:
+- Test the game on regular PC
+- Play without VR headset
+- Demo to others easily
+- Debug faster
+
+The VR scripts (SteamVR) won't interfere with mouse controls.
+
+---
+
+Need help? Check:
+- Gun tags are set
+- Camera is assigned
+- Scripts are on correct objects
+- Cursor is locked (click to lock)
